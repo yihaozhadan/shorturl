@@ -31,4 +31,9 @@ impl InMemoryUrlStore {
             long_url: long_url.to_string(),
         }
     }
+
+    pub fn get_long_url(&self, short_code: &str) -> Option<String> {
+        let map = self.inner.read().expect("lock poisoned");
+        map.get(short_code).cloned()
+    }
 }

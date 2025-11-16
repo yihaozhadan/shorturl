@@ -29,6 +29,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(store.clone()))
             .service(health)
             .service(routes::create_short_url::create_short_url)
+            .service(routes::redirect::redirect_short_url)
     })
     .bind(&cfg.server_addr)?
     .run()
