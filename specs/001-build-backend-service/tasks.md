@@ -63,13 +63,13 @@ description: "Task list for URL Shortening Backend Service"
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Define `UrlMapping` data structure in `src/models/url_mapping.rs`
+- [X] T010 [P] [US1] Define `UrlMapping` data structure in `src/models/url_mapping.rs`
 - [ ] T011 [P] [US1] Implement SurrealDB CRUD helper for creating and reading URL mappings in `src/db/url_mapping_repo.rs`
-- [ ] T012 [US1] Implement URL shortening service (long → short mapping logic) in `src/services/url_shortener.rs`
-- [ ] T013 [US1] Implement HTTP route handler for creating short URLs in `src/routes/create_short_url.rs`
-- [ ] T014 [US1] Wire `create short URL` route into Actix application in `src/routes/mod.rs`
-- [ ] T015 [P] [US1] Add integration test for creating a short URL via HTTP API in `tests/integration/create_short_url_test.rs`
-- [ ] T016 [P] [US1] Add unit tests for URL shortening service (mapping behavior, idempotency) in `tests/unit/url_shortener_tests.rs`
+- [X] T012 [US1] Implement URL shortening service (long → short mapping logic) in `src/services/url_shortener.rs`
+- [X] T013 [US1] Implement HTTP route handler for creating short URLs in `src/routes/create_short_url.rs`
+- [X] T014 [US1] Wire `create short URL` route into Actix application in `src/routes/mod.rs`
+- [X] T015 [P] [US1] Add integration test for creating a short URL via HTTP API in `tests/integration/create_short_url_test.rs`
+- [X] T016 [P] [US1] Add unit tests for URL shortening service (mapping behavior, idempotency) in `tests/unit/url_shortener_tests.rs`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently.
 
