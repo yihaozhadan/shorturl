@@ -34,7 +34,7 @@ If code has not yet been created, start with the tasks file and follow the phase
 4. Start the SurrealDB server:
 
 ```bash
-surreal start --user root --pass root rocksdb://mydb 
+surreal start --user root --pass root --import-file db/schema.surql rocksdb://mydb
 
 ```
 
