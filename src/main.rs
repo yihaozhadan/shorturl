@@ -1,4 +1,4 @@
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{App, HttpResponse, HttpServer, Responder, get, web};
 
 mod config;
 mod db;
@@ -8,7 +8,9 @@ mod services;
 
 use crate::config::env::AppConfig;
 use crate::config::logging::init_logging;
-use crate::services::url_shortener::InMemoryUrlStore;
+use crate::db::DbClient;
+use crate::db::url_mapping_repo::UrlMappingRepo;
+use crate::services::url_shortener::UrlShortenerService;
 
 #[get("/")]
 async fn health() -> impl Responder {
@@ -22,11 +24,21 @@ async fn main() -> std::io::Result<()> {
 
     log::info!("Starting shorturl backend on {}", cfg.server_addr);
 
-    let store = InMemoryUrlStore::new();
+    let db_client: DbClient = match db::create_db_client(&cfg).await {
+        Ok(client) => client,
+        Err(err) => {
+            log::error!("Failed to connect to SurrealDB: {err}");
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::Other,
+                "db init failed",
+            ));
+        }
+    };
+    let service = UrlShortenerService::new(UrlMappingRepo::new(db_client));
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(store.clone()))
+            .app_data(web::Data::new(service.clone()))
             .service(health)
             .service(routes::create_short_url::create_short_url)
             .service(routes::redirect::redirect_short_url)

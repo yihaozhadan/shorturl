@@ -1,39 +1,27 @@
-use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
-
+use crate::db::{error::Error, url_mapping_repo::UrlMappingRepo};
 use crate::models::url_mapping::UrlMapping;
 
-#[derive(Clone, Default)]
-pub struct InMemoryUrlStore {
-    inner: Arc<RwLock<HashMap<String, String>>>,
+#[derive(Clone)]
+pub struct UrlShortenerService {
+    repo: UrlMappingRepo,
 }
 
-impl InMemoryUrlStore {
-    pub fn new() -> Self {
-        Self::default()
+impl UrlShortenerService {
+    pub fn new(repo: UrlMappingRepo) -> Self {
+        Self { repo }
     }
 
-    pub fn get_or_create(&self, long_url: &str) -> UrlMapping {
-        let mut map = self.inner.write().expect("lock poisoned");
-
-        if let Some(existing) = map.iter().find(|(_, v)| v.as_str() == long_url) {
-            return UrlMapping {
-                short_code: existing.0.clone(),
-                long_url: existing.1.clone(),
-            };
+    pub async fn get_or_create(&self, long_url: &str) -> Result<UrlMapping, Error> {
+        if let Some(existing) = self.repo.find_by_long_url(long_url).await? {
+            return Ok(existing);
         }
 
         let short_code = nanoid::nanoid!(8);
-        map.insert(short_code.clone(), long_url.to_string());
-
-        UrlMapping {
-            short_code,
-            long_url: long_url.to_string(),
-        }
+        self.repo.create_mapping(long_url, &short_code).await
     }
 
-    pub fn get_long_url(&self, short_code: &str) -> Option<String> {
-        let map = self.inner.read().expect("lock poisoned");
-        map.get(short_code).cloned()
+    pub async fn get_long_url(&self, short_code: &str) -> Result<Option<String>, Error> {
+        let mapping = self.repo.find_by_short_code(short_code).await?;
+        Ok(mapping.map(|m| m.long_url))
     }
 }

@@ -83,10 +83,10 @@ description: "Task list for URL Shortening Backend Service"
 
 ### Implementation for User Story 2
 
-- [ ] T017 [P] [US2] Implement URL validation logic (syntax and basic safety checks) in `src/services/url_validation.rs`
-- [ ] T018 [US2] Integrate URL validation into `create short URL` flow in `src/services/url_shortener.rs`
-- [ ] T019 [US2] Standardize error response format for invalid/unsafe URLs in `src/routes/create_short_url.rs`
-- [ ] T020 [P] [US2] Add integration tests for invalid/unsafe URL submissions in `tests/integration/invalid_url_tests.rs`
+- [X] T017 [P] [US2] Implement URL validation logic (syntax and basic safety checks) in `src/services/url_validation.rs`
+- [X] T018 [US2] Integrate URL validation into `create short URL` flow in `src/services/url_shortener.rs`
+- [X] T019 [US2] Standardize error response format for invalid/unsafe URLs in `src/routes/create_short_url.rs`
+- [X] T020 [P] [US2] Add integration tests for invalid/unsafe URL submissions in `tests/integration/invalid_url_tests.rs`
 
 **Checkpoint**: User Story 1 and User Story 2 both work independently and provide clear error feedback.
 
@@ -100,8 +100,8 @@ description: "Task list for URL Shortening Backend Service"
 
 ### Implementation for User Story 3
 
-- [ ] T021 [P] [US3] Update URL mapping repository to query existing mapping before creating a new one in `src/db/url_mapping_repo.rs`
-- [ ] T022 [US3] Update URL shortening service to return existing mapping when available in `src/services/url_shortener.rs`
+- [X] T021 [P] [US3] Update URL mapping repository to query existing mapping before creating a new one in `src/db/url_mapping_repo.rs`
+- [X] T022 [US3] Update URL shortening service to return existing mapping when available in `src/services/url_shortener.rs`
 - [ ] T023 [P] [US3] Add integration tests covering repeated submissions of the same long URL in `tests/integration/reuse_short_url_tests.rs`
 
 **Checkpoint**: All three user stories are independently functional and testable.

@@ -1,8 +1,8 @@
-use actix_web::{post, web, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder, ResponseError, post, web};
 use serde::Deserialize;
 
-use crate::services::url_shortener::InMemoryUrlStore;
-use crate::services::url_validation::{validate_url, ValidationError};
+use crate::services::url_shortener::UrlShortenerService;
+use crate::services::url_validation::{ValidationError, validate_url};
 
 #[derive(Deserialize)]
 pub struct CreateShortUrlRequest {
@@ -11,7 +11,7 @@ pub struct CreateShortUrlRequest {
 
 #[post("/shorten")]
 pub async fn create_short_url(
-    store: web::Data<InMemoryUrlStore>,
+    service: web::Data<UrlShortenerService>,
     payload: web::Json<CreateShortUrlRequest>,
 ) -> impl Responder {
     if let Err(err) = validate_url(&payload.long_url) {
@@ -34,6 +34,8 @@ pub async fn create_short_url(
         }));
     }
 
-    let mapping = store.get_or_create(&payload.long_url);
-    HttpResponse::Ok().json(mapping)
+    match service.get_or_create(&payload.long_url).await {
+        Ok(mapping) => HttpResponse::Ok().json(mapping),
+        Err(err) => err.error_response(),
+    }
 }

@@ -1,19 +1,19 @@
-use actix_web::{get, web, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder, ResponseError, get, web};
 
-use crate::services::url_shortener::InMemoryUrlStore;
+use crate::services::url_shortener::UrlShortenerService;
 
 #[get("/{code}")]
 pub async fn redirect_short_url(
-    store: web::Data<InMemoryUrlStore>,
+    service: web::Data<UrlShortenerService>,
     path: web::Path<String>,
 ) -> impl Responder {
     let code = path.into_inner();
 
-    if let Some(long_url) = store.get_long_url(&code) {
-        HttpResponse::Found()
-            .append_header(("Location", long_url.as_str()))
-            .finish()
-    } else {
-        HttpResponse::NotFound().finish()
+    match service.get_long_url(&code).await {
+        Ok(Some(long_url)) => HttpResponse::Found()
+            .append_header(("Location", long_url))
+            .finish(),
+        Ok(None) => HttpResponse::NotFound().finish(),
+        Err(err) => err.error_response(),
     }
 }

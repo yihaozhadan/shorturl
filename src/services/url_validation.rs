@@ -13,12 +13,10 @@ pub fn validate_url(input: &str) -> Result<(), ValidationError> {
     }
 
     match Url::parse(trimmed) {
-        Ok(parsed) => {
-            match parsed.scheme() {
-                "http" | "https" => Ok(()),
-                _ => Err(ValidationError::InvalidFormat),
-            }
-        }
+        Ok(parsed) => match parsed.scheme() {
+            "http" | "https" => Ok(()),
+            _ => Err(ValidationError::InvalidFormat),
+        },
         Err(_) => Err(ValidationError::InvalidFormat),
     }
 }
