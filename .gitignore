@@ -1,0 +1,29 @@
+# Rust / Cargo
+/target/
+/debug/
+/release/
+**/*.rs.bk
+**/*.rlib
+**/*.prof*
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and env
+*.log
+.env
+.env.*
+
+# Misc
+.DS_Store
+Thumbs.db
+
+
+# Added by cargo
+
+/target
+
+/mydb

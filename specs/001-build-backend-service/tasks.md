@@ -63,13 +63,13 @@ description: "Task list for URL Shortening Backend Service"
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Define `UrlMapping` data structure in `src/models/url_mapping.rs`
+- [X] T010 [P] [US1] Define `UrlMapping` data structure in `src/models/url_mapping.rs`
 - [ ] T011 [P] [US1] Implement SurrealDB CRUD helper for creating and reading URL mappings in `src/db/url_mapping_repo.rs`
-- [ ] T012 [US1] Implement URL shortening service (long → short mapping logic) in `src/services/url_shortener.rs`
-- [ ] T013 [US1] Implement HTTP route handler for creating short URLs in `src/routes/create_short_url.rs`
-- [ ] T014 [US1] Wire `create short URL` route into Actix application in `src/routes/mod.rs`
-- [ ] T015 [P] [US1] Add integration test for creating a short URL via HTTP API in `tests/integration/create_short_url_test.rs`
-- [ ] T016 [P] [US1] Add unit tests for URL shortening service (mapping behavior, idempotency) in `tests/unit/url_shortener_tests.rs`
+- [X] T012 [US1] Implement URL shortening service (long → short mapping logic) in `src/services/url_shortener.rs`
+- [X] T013 [US1] Implement HTTP route handler for creating short URLs in `src/routes/create_short_url.rs`
+- [X] T014 [US1] Wire `create short URL` route into Actix application in `src/routes/mod.rs`
+- [X] T015 [P] [US1] Add integration test for creating a short URL via HTTP API in `tests/integration/create_short_url_test.rs`
+- [X] T016 [P] [US1] Add unit tests for URL shortening service (mapping behavior, idempotency) in `tests/unit/url_shortener_tests.rs`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently.
 
@@ -83,10 +83,10 @@ description: "Task list for URL Shortening Backend Service"
 
 ### Implementation for User Story 2
 
-- [ ] T017 [P] [US2] Implement URL validation logic (syntax and basic safety checks) in `src/services/url_validation.rs`
-- [ ] T018 [US2] Integrate URL validation into `create short URL` flow in `src/services/url_shortener.rs`
-- [ ] T019 [US2] Standardize error response format for invalid/unsafe URLs in `src/routes/create_short_url.rs`
-- [ ] T020 [P] [US2] Add integration tests for invalid/unsafe URL submissions in `tests/integration/invalid_url_tests.rs`
+- [X] T017 [P] [US2] Implement URL validation logic (syntax and basic safety checks) in `src/services/url_validation.rs`
+- [X] T018 [US2] Integrate URL validation into `create short URL` flow in `src/services/url_shortener.rs`
+- [X] T019 [US2] Standardize error response format for invalid/unsafe URLs in `src/routes/create_short_url.rs`
+- [X] T020 [P] [US2] Add integration tests for invalid/unsafe URL submissions in `tests/integration/invalid_url_tests.rs`
 
 **Checkpoint**: User Story 1 and User Story 2 both work independently and provide clear error feedback.
 
@@ -100,8 +100,8 @@ description: "Task list for URL Shortening Backend Service"
 
 ### Implementation for User Story 3
 
-- [ ] T021 [P] [US3] Update URL mapping repository to query existing mapping before creating a new one in `src/db/url_mapping_repo.rs`
-- [ ] T022 [US3] Update URL shortening service to return existing mapping when available in `src/services/url_shortener.rs`
+- [X] T021 [P] [US3] Update URL mapping repository to query existing mapping before creating a new one in `src/db/url_mapping_repo.rs`
+- [X] T022 [US3] Update URL shortening service to return existing mapping when available in `src/services/url_shortener.rs`
 - [ ] T023 [P] [US3] Add integration tests covering repeated submissions of the same long URL in `tests/integration/reuse_short_url_tests.rs`
 
 **Checkpoint**: All three user stories are independently functional and testable.

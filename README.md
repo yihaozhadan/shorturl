@@ -31,10 +31,16 @@ If code has not yet been created, start with the tasks file and follow the phase
    ```
 3. Initialize the Rust project structure if it does not exist yet (see `specs/001-build-backend-service/tasks.md`, Phase 1).
 
-Once the Cargo project is set up as described in the specs, you should be able to:
+4. Start the SurrealDB server:
 
 ```bash
-cargo build
+surreal start --user root --pass root --import-file db/schema.surql rocksdb://mydb
+
+```
+
+5. Start the Actix server:
+
+```bash
 cargo run
 ```
 
