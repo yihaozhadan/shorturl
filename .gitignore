@@ -16,6 +16,7 @@
 *.log
 .env
 .env.*
+!.env.example
 
 # Misc
 .DS_Store
@@ -27,3 +28,6 @@ Thumbs.db
 /target
 
 /mydb
+
+# Docker data
+/data

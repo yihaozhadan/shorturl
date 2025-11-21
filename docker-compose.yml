@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # SurrealDB Service
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    container_name: shorturl-surrealdb
+    command: start --log trace --user ${SURREALDB_USER:-root} --pass ${SURREALDB_PASS:-root} file:/data/database.db
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount data to a single file
+      - ./data:/data
+      - ./db/schema.surql:/schema.surql:ro
+    environment:
+      - SURREAL_USER=${SURREALDB_USER:-root}
+      - SURREAL_PASS=${SURREALDB_PASS:-root}
+    networks:
+      - shorturl-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Backend Service (Rust/Actix)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shorturl-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SHORTURL_SERVER_ADDR=0.0.0.0:8080
+      - SURREALDB_URL=surrealdb:8000
+      - SURREALDB_USER=${SURREALDB_USER:-root}
+      - SURREALDB_PASS=${SURREALDB_PASS:-root}
+      - SURREALDB_NS=${SURREALDB_NS:-shorturl}
+      - SURREALDB_DB=${SURREALDB_DB:-shorturl}
+      - RUST_LOG=${RUST_LOG:-info}
+    depends_on:
+      surrealdb:
+        condition: service_healthy
+    networks:
+      - shorturl-network
+    restart: unless-stopped
+
+  # Frontend Service (SvelteKit)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shorturl-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://backend:8080
+      - PUBLIC_BACKEND_URL=${PUBLIC_BACKEND_URL:-http://localhost:8080}
+      - ORIGIN=${ORIGIN:-http://localhost:3000}
+      - PORT=3000
+      - HOST=0.0.0.0
+    depends_on:
+      - backend
+    networks:
+      - shorturl-network
+    restart: unless-stopped
+
+networks:
+  shorturl-network:
+    driver: bridge
+
+volumes:
+  surrealdb-data:

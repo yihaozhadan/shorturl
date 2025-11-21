@@ -1,0 +1,17 @@
+node_modules/
+.svelte-kit/
+build/
+.git/
+.gitignore
+.env
+.env.*
+*.md
+.vscode/
+.DS_Store
+e2e/
+tests/
+playwright.config.ts
+eslint.config.js
+.prettierrc
+.prettierignore
+.npmrc

@@ -29,12 +29,12 @@ pub async fn create_db_client(cfg: &AppConfig) -> Result<DbClient, Error> {
     let db = Surreal::new::<Ws>(&cfg.surrealdb_url).await?;
 
     db.signin(Root {
-        username: "root",
-        password: "root",
+        username: &cfg.surrealdb_user,
+        password: &cfg.surrealdb_pass,
     })
     .await?;
 
-    db.use_ns("shorturl").use_db("shorturl").await?;
+    db.use_ns(&cfg.surrealdb_ns).use_db(&cfg.surrealdb_db).await?;
 
     Ok(DbClient::new(db))
 }

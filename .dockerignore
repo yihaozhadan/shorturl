@@ -1,0 +1,15 @@
+target/
+.git/
+.gitignore
+mydb/
+data/
+*.md
+.specify/
+.windsurf/
+specs/
+tests/
+frontend/
+.DS_Store
+docker-compose.yml
+.env
+.env.*
