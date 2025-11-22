@@ -17,6 +17,15 @@ DEFINE FIELD long_url ON TABLE url_mappings TYPE string
 DEFINE FIELD short_code ON TABLE url_mappings TYPE string
     ASSERT $value != NONE;
 
+DEFINE FIELD created_at ON TABLE url_mappings TYPE datetime
+    VALUE time::now();
+
+DEFINE FIELD last_accessed_at ON TABLE url_mappings TYPE datetime
+    VALUE time::now();
+
+DEFINE FIELD access_count ON TABLE url_mappings TYPE int
+    VALUE 0;
+
 DEFINE INDEX idx_url_mappings_short_code_unique
     ON TABLE url_mappings FIELDS short_code UNIQUE;
 

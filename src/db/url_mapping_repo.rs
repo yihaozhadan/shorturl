@@ -28,6 +28,21 @@ impl UrlMappingRepo {
         Ok(record.map(Self::to_model))
     }
 
+    pub async fn touch_by_short_code(&self, short_code: &str) -> Result<(), Error> {
+        let short_code_value = short_code.to_owned();
+        self
+            .db
+            .connection()
+            .query(
+                "UPDATE type::table($table) SET last_accessed_at = time::now(), access_count += 1 WHERE short_code = $short_code",
+            )
+            .bind(("table", TABLE))
+            .bind(("short_code", short_code_value))
+            .await?;
+
+        Ok(())
+    }
+
     pub async fn find_by_short_code(&self, short_code: &str) -> Result<Option<UrlMapping>, Error> {
         let short_code_value = short_code.to_owned();
         let mut response = self
@@ -71,6 +86,13 @@ impl UrlMappingRepo {
         UrlMapping {
             short_code: record.short_code,
             long_url: record.long_url,
+            created_at: record.created_at,
+            last_accessed_at: if record.last_accessed_at.is_empty() {
+                None
+            } else {
+                Some(record.last_accessed_at)
+            },
+            access_count: record.access_count,
         }
     }
 }

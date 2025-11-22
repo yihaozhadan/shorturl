@@ -22,6 +22,11 @@ impl UrlShortenerService {
 
     pub async fn get_long_url(&self, short_code: &str) -> Result<Option<String>, Error> {
         let mapping = self.repo.find_by_short_code(short_code).await?;
+        if let Some(ref m) = mapping {
+            // Update last_accessed_at and access_count asynchronously in DB
+            self.repo.touch_by_short_code(&m.short_code).await?;
+        }
+
         Ok(mapping.map(|m| m.long_url))
     }
 }

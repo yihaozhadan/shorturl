@@ -1,6 +1,9 @@
 export interface ShortenResponse {
 	short_code: string;
 	long_url: string;
+	created_at: string;
+	last_accessed_at: string | null;
+	access_count: number;
 }
 
 export interface ErrorResponse {
