@@ -2,17 +2,21 @@
 
 A full-stack URL shortening service with a Rust backend, SvelteKit frontend, and SurrealDB database. Deployable via Docker Compose for easy production setup.
 
-This repository is currently driven by specifications under `specs/001-build-backend-service/`. The implementation in `src/` and `tests/` should follow those specs and tasks.
+Demo: **https://url.util-kit.com/**
 
-## Project Status
+## What Is ShortURL Service?
 
-Implementation is guided by:
+ShortURL Service is a full-stack URL shortener designed to be:
 
-- `specs/001-build-backend-service/spec.md`
-- `specs/001-build-backend-service/plan.md`
-- `specs/001-build-backend-service/tasks.md`
+- Modern – built with Rust, SvelteKit, and SurrealDB.
+- Practical – easy to run via Docker Compose.
+- Structured – driven by clear specs and implementation tasks.
 
-If code has not yet been created, start with the tasks file and follow the phases in order.
+At a high level, it lets you:
+
+- Submit a __long URL__.
+- Receive a __short, shareable link__.
+- Resolve the short link back to the original URL using a simple HTTP redirect.
 
 ## Tech Stack
 
@@ -262,7 +266,7 @@ npm run build
 
 ## Contributing
 
-1. Follow the specifications in `specs/001-build-backend-service/`
+1. Follow the specifications in `specs/` folder.
 2. Write tests for new features
 3. Ensure all tests pass: `cargo test` and `npm test`
 4. Follow the existing code style
